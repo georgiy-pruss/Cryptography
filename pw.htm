@@ -1,0 +1,57 @@
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>PW.JS</title>
+<!-- reads and shows table from pw.js (must define pwds) -->
+<meta charset="utf-8">
+<style>
+  .odd { background-color: #F0F0F0; }
+  .dvt { margin-top: 0.2em; }
+  .iden { font-weight: bold; }
+  .pass { color: red; }
+  td { padding-left: 0.3em; padding-right: 0.5em; border-width: 0px; }
+</style>
+<script src="./util/aes.js">/* AES JavaScript implementation */</script>
+<script src="./util/aes-ctr.js">/* AES Counter Mode implementation */</script>
+<script src="./util/base64.js">/* Base64 encoding */</script>
+<script src="./util/utf8.js">/* UTF-8 encoding */</script>
+<script src="./util/jquery.min.js"></script>
+<script src="./util/mtl.js">/* MTL utils */</script>
+<script src="pw.js">/* must define pwds */</script>
+<script>
+function srchstr(p,s,l)
+{
+  if( typeof pwds == 'undefined' || p.length == 0 ) return "";
+  var t = Utf8.decode(Aes.Ctr.decrypt( Base64.decode(pwds), Utf8.encode(p), 256 ));
+  if( t.length == 0 ) return "";
+  if( t.substr( 0, 11 ) != t.substr( 11, 11 ) ) return 'error';
+  var a = t.substr(11).split('\n');
+  if( s.length == 0 ) return "&nbsp;" + a.length + " items";
+  s = s.toUpperCase();
+  var b = false;
+  var r = "<table cellspacing=0 border=1>";
+  for( var i=0; i<a.length; ++i )
+  {
+    if( a[i].toUpperCase().indexOf(s) >= 0 )
+    {
+      t = a[i].replace("\t","</td><td class='iden'>").replace("\t","</td><td class='pass'>");
+      if( t.indexOf("\t")<0 ) t += "\t";
+      t = l ? t.replace("\t","</td><td>").replace(/\t/g," ") : t.replace(/\t.+/,"");
+      r += (b?"<tr class='odd'><td>":"<tr><td>") + t + "</td></tr>";
+      b = !b;
+    }
+  }
+  return r+"</table>";
+}
+function decode() { $('#pt').html( srchstr( f.pw.value, f.srch.value, f.full.checked ) ); }
+</script>
+</head>
+<body onload="$('#pw').focus()">
+  <form name="f">
+    <table border=0><tr><td>Password</td><td>
+    <input type="password" name="pw" id="pw" value="" style="width:10en;"></td></tr><tr><td>
+    <button type="button" name="doit" id="doit" onclick="decode()">Search</button></td><td>
+    <input type="text" name="srch" id="srch" value="" style="width:10en;">
+    <input type="checkbox" name="full" value="full" onchange="decode()"> full</td></tr></table>
+    <div id="pt" class="dvt"></div>
+  </form>
+</body>
+</html>
