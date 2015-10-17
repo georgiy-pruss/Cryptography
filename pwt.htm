@@ -1,0 +1,62 @@
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>PWT - encrypted texts</title>
+<meta charset="utf-8">
+<style>
+  .dv { margin-top: 0.2em; margin-left: 0.4em; }
+  .iden { font-weight: bold; }
+  .pass { color: red; }
+  td { padding-left: 0.3em; padding-right: 0.5em; border-width: 0px; }
+</style>
+<script src="./util/aes.js">/* AES JavaScript implementation */</script>
+<script src="./util/aes-ctr.js">/* AES Counter Mode implementation */</script>
+<script src="./util/base64.js">/* Base64 encoding */</script>
+<script src="./util/utf8.js">/* UTF-8 encoding */</script>
+<script src="./util/jquery.min.js"></script>
+<script src="./util/mtl.js">/* MTL utils */</script>
+<script src="./util/crc32.js">/* crc32 function */</script>
+<script>var txts = []; var T='';</script>
+
+<script src="t0.aes"></script>      <script>if(T)txts.push(['t0 (plain text)',  T]);T='';</script>
+<script src="t1.aes"></script>      <script>if(T)txts.push(['t1 (preformatted)',T]);T='';</script>
+<script src="t2.aes"></script>      <script>if(T)txts.push(['t2 (full html)',   T]);T='';</script>
+<script src="me.aes"></script>      <script>if(T)txts.push(['Me',               T]);T='';</script>
+<script src="contacts.aes"></script><script>if(T)txts.push(['Contacts',         T]);T='';</script>
+
+<script>
+function gensel()
+{
+  var sel = document.getElementById('selbox');
+  var opt;
+  for( var i = 0; i<txts.length; ++i)
+  {
+    opt = document.createElement('option');
+    opt.value = i;
+    opt.innerHTML = txts[i][0];
+    sel.appendChild(opt);
+  }
+}
+function decrypt(p,s)
+{
+  if( p.length == 0 ) return "no password";
+  var k = 1*s; // convert s to number
+  if( k<0 ) return ""; // clean all when 'Select:' is selected
+  var txt = Utf8.decode(Aes.Ctr.decrypt( Base64.decode(txts[k][1]), Utf8.encode(p), 256 ));
+  var chk = txt.substr(0,5);
+  txt = txt.substr(5);
+  if( crc32str(txt) != chk ) return "<i style='color:red'>error</i>";
+  return txt;
+}
+</script>
+</head>
+<body onload="gensel(),$('#pw').focus()">
+  <form name="f">
+    <table border=0><tr><td>Password</td><td>
+    <input type="password" name="pw" id="pw" value="" style="width:12em;"></td></tr><tr><td>
+    <button type="button"
+      onclick="$('#pt').html( decrypt( f.pw.value, f.selbox.value ) )">Decrypt</button></td><td>
+    <select id="selbox" style="width:12em;">
+      <option value="-1">Select:</option></select></td></tr></table>
+    <div id="pt" class="dv"></div>
+  </form>
+</body>
+</html>
