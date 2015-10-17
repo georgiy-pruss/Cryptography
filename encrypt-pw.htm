@@ -1,0 +1,34 @@
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Encrypt 'pw.js'</title>
+<meta charset="utf-8">
+<style>
+  button { font-size: 0.9em; }
+  textarea { width: 60em; height: 20em; }
+</style>
+<script src="./util/aes.js">/* AES JavaScript implementation */</script>
+<script src="./util/aes-ctr.js">/* AES Counter Mode implementation */</script>
+<script src="./util/base64.js">/* Base64 encoding */</script>
+<script src="./util/utf8.js">/* UTF-8 encoding */</script>
+<script src="./util/jquery.min.js"></script>
+<script src="./util/mtl.js">/* MTL utils */</script>
+<script src="pw-plain.js">/* pwt array */</script>
+<script>
+function enc(pwd)
+{
+  return "pwds='"+
+    Base64.encode(Aes.Ctr.encrypt(Utf8.encode('PW.JS/AES:'+pwt.join('\n')),Utf8.encode(pwd),256))+
+    "';";
+}
+</script>
+</head>
+<body onload="f.pt.value=(pwt.length+' items\nPress [Encrypt], then copy and paste to file `pw.js`')">
+  <form name="f">
+      Password
+      <input type="password" name="pw" id="pw" value="">
+      <button type="button" name="t2" id="t2"
+        onclick="f.pt.value = enc(f.pw.value)">Encrypt</button>
+      <br>
+      <textarea name="pt" id="pt" class="w36">copy and paste to file 'pw.js'</textarea>
+  </form>
+</body>
+</html>
