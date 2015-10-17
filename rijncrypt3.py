@@ -1,7 +1,6 @@
 # rijcrypt.py
 # Rijndael encryption - used in AES
-# 20040711-050737
-# Georgy Pruss - d001120t0330@hotmail.com
+# 20040711-050737 - Georgy Pruss
 
 # Speed with psyco ~145000 B/s (???) HP 18 kB/s, Acer 48 kB/s
 
