@@ -64,7 +64,7 @@ int main( int ac, char* av[] ) __
     printf("Syntax: salsa20 e|d key|- input-file output-file\n"), exit(0);
   if( strcmp(av[2],"-")==0 ) __ char pwd[300]={'\0'};
     printf("Enter password: "); fgets(pwd,sizeof(pwd),stdin);
-     U l=strlen(pwd); if( l>0 && pwd[l-1]=='\x0A' ) --l; if( l==0 ) exit(0);
+    U l=strlen(pwd); if( l>0 && pwd[l-1]=='\x0A' ) --l; if( l==0 ) exit(0);
     mrm256( k, pwd, l ); _
   else mrm256( k, av[2], strlen(av[2]) );
   FILE* fi = fopen(av[3],"rb"); if(!fi) printf("No file %s\n",av[3]), exit(2);
