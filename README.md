@@ -1,5 +1,6 @@
 # Cryptography
 
+<pre>
 RC5.c          -- implementation of RC5 on C. Useless because RC5 is patented.  
 RC5.py         -- implementation of RC5 on Python. Useless because RC5 is patented.  
 
@@ -20,5 +21,5 @@ pwt.htm        -- web interface to encrypted files (*.aes)
 me.aes         -- sample of encrypted file  
 AES.htm        -- (useful) demo of AES encryption of text messages  
 util/...       -- utility js files for the web stuff  
-
+</pre>
 See also aes.ijs in the j repository.  
