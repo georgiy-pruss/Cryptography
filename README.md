@@ -1,12 +1,12 @@
 # Cryptography
 
 <pre>
-RC5.c          — implementation of RC5 on C. Useless because RC5 is patented.  
-RC5.py         — implementation of RC5 on Python. Useless because RC5 is patented.  
+RC5.c          — implementation of RC5 in C. Useless because RC5 is patented.  
+RC5.py         — implementation of RC5 in Python. Useless because RC5 is patented.  
 
-sha256.c       — implementation of SHA256. Slow.  
+sha256.c       — implementation of SHA256. Slow. Use mrm256.c instead.
 
-mrm256.c       — based on MurmurHash3 function, fast and secure enough to be used instead of SHA256.  
+mrm256.c       — based on MurmurHash3 function, fast and secure enough.  
 mrm256test.c   — test suite for mrm256.c.  
 <b>salsa20.c</b>      — implementation of salsa20 stream cipher.  
 test_mrm256_salsa20.c — used in salsa20.c for self-test of mrm256 and salsa20.  
