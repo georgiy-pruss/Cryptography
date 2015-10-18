@@ -22,4 +22,4 @@ me.aes         — sample of encrypted file
 AES.htm        — (useful) demo of AES encryption of text messages  
 util/...       — utility js files for the web stuff  
 </pre>
-See also aes.ijs in the J repository.  
+See also aes.ijs in the J repository and aes.py in the Py repository.  
