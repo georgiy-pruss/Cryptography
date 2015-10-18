@@ -12,7 +12,7 @@ mrm256test.c   — test suite for mrm256.c.
 test_mrm256_salsa20.c — used in salsa20.c for self-test of mrm256 and salsa20.  
 
 rijncrypt3.py  — Python implementation of AES; used in pw.py.  
-pw.py          — password keeper program (I use it for many years :)  
+pw.py          — password keeper program (I've been using it for many years :)  
 
 pw.htm         — web interface to pw passwords/data  
 encrypt-pw.htm — used for making pw.js -- password file for pw.htm  
