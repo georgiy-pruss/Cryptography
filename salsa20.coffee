@@ -1,5 +1,5 @@
 # From NaCL-20110221 package; crypto_core; by D. J. Bernstein
-# Modified by G. Pruss (C) 2015
+# Modified by G. Pruss (C) 2015 | translated from my C code
 
 R = (u,c) -> ((u)<<c) | ((u)>>>(32-c))
 
@@ -7,12 +7,12 @@ U4B = (x,i) -> x[i] | (x[i+1]<<8) | (x[i+2]<<16) | (x[i+3]<<24)
 
 X4U = (x,i,u) -> x[i]^=u&0xFF; u>>>=8; x[i+1]^=u&0xFF; u>>>=8; x[i+2]^=u&0xFF; u>>>=8; x[i+3]^=u&0xFF
 
-salsa20 = ( d, k, v, ctr, n ) ->
+salsa20 = ( d, k, v, ctr, n ) -> # yeah, CoffeeScript tells much less about parameters...
   t0=0x61707865; t1=U4B(k,0);  t2=U4B(k,4);  t3=U4B(k,8);  t4=U4B(k,12)
   t5=0x3320646e; t6=U4B(v,0);  t7=U4B(v,4);  t8=ctr;       t9=0
   ta=0x79622d32; tb=U4B(k,16); tc=U4B(k,20); td=U4B(k,24); te=U4B(k,28)
   tf=0x6b206574; o=0
-  while n-- > 0 # for j in [0...n] -- slow
+  while n-- > 0 # for j in [0...n] -- slow... at least not for(j=0;j<n;++j) :(
     x0=t0; x1=t1; x2=t2; x3=t3; x4=t4; x5=t5; x6=t6; x7=t7; x8=t8; x9=t9
     xa=ta; xb=tb; xc=tc; xd=td; xe=te; xf=tf
     i=20
@@ -35,16 +35,17 @@ salsa20 = ( d, k, v, ctr, n ) ->
     o+=64; ++t8
   return t8
 
+hex = (s) -> ((if x<16 then "0"+x.toString(16) else x.toString(16)) for x in s).join('')
+say = if window? then alert else console.log # good both for node.js and browser
+
 test0 = ->
   k = (0 for i in [0...32])
   v = (0 for i in [0...8])
   d = (0 for i in [0...64])
   salsa20( d, k, v, 0, 1 )
-  r = ((if x<16 then "0"+x.toString(16) else x.toString(16)) for x in d).join('')
-  r == "9a97f65b9b4c721b"+"960a672145fca8d4"+"e32e67f9111ea979"+"ce9c4826806aeee6"+
-       "3de9c0da2bd7f91e"+"bcb2639bf989c625"+"1b29bf38d39a9bdc"+"e7c55f4b2ac12a39"
+  hex(d) == "9a97f65b9b4c721b"+"960a672145fca8d4"+"e32e67f9111ea979"+"ce9c4826806aeee6"+
+            "3de9c0da2bd7f91e"+"bcb2639bf989c625"+"1b29bf38d39a9bdc"+"e7c55f4b2ac12a39"
   
-say = if window? then alert else console.log # good both for node.js and browser
 
 if test0()
   M = 500000
