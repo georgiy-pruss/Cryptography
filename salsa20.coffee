@@ -45,7 +45,6 @@ test0 = ->
   salsa20( d, k, v, 0, 1 )
   hex(d) == "9a97f65b9b4c721b"+"960a672145fca8d4"+"e32e67f9111ea979"+"ce9c4826806aeee6"+
             "3de9c0da2bd7f91e"+"bcb2639bf989c625"+"1b29bf38d39a9bdc"+"e7c55f4b2ac12a39"
-  
 
 if test0()
   M = 500000
