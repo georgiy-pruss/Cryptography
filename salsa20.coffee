@@ -1,7 +1,7 @@
 # From NaCL-20110221 package; crypto_core; by D. J. Bernstein
 # Modified by G. Pruss (C) 2015
 
-R = (u,c) -> (((u)<<c)|((u)>>>(32-c)))
+R = (u,c) -> ((u)<<c) | ((u)>>>(32-c))
 
 U4B = (x,i) -> x[i] | (x[i+1]<<8) | (x[i+2]<<16) | (x[i+3]<<24)
 
@@ -41,11 +41,10 @@ test0 = ->
   d = (0 for i in [0...64])
   salsa20( d, k, v, 0, 1 )
   r = ((if x<16 then "0"+x.toString(16) else x.toString(16)) for x in d).join('')
-  m = "9a97f65b9b4c721b"+"960a672145fca8d4"+"e32e67f9111ea979"+"ce9c4826806aeee6"+
-      "3de9c0da2bd7f91e"+"bcb2639bf989c625"+"1b29bf38d39a9bdc"+"e7c55f4b2ac12a39"
-  r == m
-
-say = if window? then alert else console.log
+  r == "9a97f65b9b4c721b"+"960a672145fca8d4"+"e32e67f9111ea979"+"ce9c4826806aeee6"+
+       "3de9c0da2bd7f91e"+"bcb2639bf989c625"+"1b29bf38d39a9bdc"+"e7c55f4b2ac12a39"
+  
+say = if window? then alert else console.log # good both for node.js and browser
 
 if test0()
   M = 500000
