@@ -60,3 +60,7 @@ if __name__== '__main__':
   '''import time; t=int(time.time()); x = (t<<32)|(t^0xffffffff); x = (x<<64)|(x^0xa5a5a5a5a5a5)
   for i in range(1000000): y = encrypt(xk,x); assert y>0 and y!=x and decrypt(xk,y)==x; y = x
   print('1000000 encrypts+decrypts: %.0f s' % (time.time()-t)) ''' # 1M: 96s
+
+  #print( (0x6c617669757165207469206564616d20).to_bytes(16,'little') ) # b' made it equival'
+  #print( (0x726148206665696843206f7420746e65).to_bytes(16,'little') ) # b'ent to Chief Har'
+  #print( (0x65736f6874206e49202e72656e6f6f70).to_bytes(16,'little') ) # b'pooner. In those'
