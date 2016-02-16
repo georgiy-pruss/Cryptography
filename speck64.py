@@ -20,8 +20,8 @@ def expand_key(key:int)->list: # key: 128 bits
 
 def encrypt(exp_key:list, plaintext:int)->int: # gets/returns 64-bit int (8-byte block)
   L = (plaintext >> 32) & M32; R = plaintext & M32
-  for i in range(27):
-    L = A32(R32(L,8), R) ^ exp_key[i]; R = L32(R,3) ^ L
+  for key in exp_key:
+    L = A32(R32(L,8), R) ^ key; R = L32(R,3) ^ L
   return (L<<32) | R
 
 def decrypt(exp_key:list, ciphertext:int)->int: # gets/returns 64-bit int (8-byte block)
