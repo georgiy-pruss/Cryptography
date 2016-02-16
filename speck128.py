@@ -23,11 +23,11 @@ def expand_key(keysz:int,key:int)->list: # keysz is 16/24/32 for 128/192/256-bit
   return k # len(k) = 32/33/34 = number of rounds
 
 def encrypt(exp_key:list, plaintext:int)->int: # gets/returns 128-bit int (16-byte block)
-  T = len(exp_key); assert 32<=T<=34, "expanded key can be 32, 33 or 34 items"
+  assert 32<=len(exp_key)<=34, "expanded key can be 32, 33 or 34 items"
   L = (plaintext >> 64) & M64
   R = plaintext & M64
-  for i in range(T):
-    L = A64(R64(L,8), R) ^ exp_key[i]
+  for k in exp_key:
+    L = A64(R64(L,8), R) ^ k
     R = L64(R,3) ^ L
   return (L<<64) | R
 
