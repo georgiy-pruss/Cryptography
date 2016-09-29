@@ -27,5 +27,10 @@ pwt.htm        — web interface to encrypted files (*.aes)
 me.aes         — sample of encrypted file  
 AES.htm        — (useful) demo of AES encryption of text messages  
 util/...       — utility js files for the web stuff  
+
+aes.py         — also implementation of AES
+
+dhkx.py        — DH key exchange scheme
+execdhkx.py    — program for practical keys exchange
 </pre>
-See also aes.ijs in the J repository and aes.py in the Py repository.  
+To get aes.ijs in the J repository...
