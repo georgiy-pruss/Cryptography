@@ -15,11 +15,13 @@ _p = 0 # modulo. don't use it outside!
 
 def set_modp( k: int ):
   global _p
-  # argument - bits, i.e. 1536 2048 3072 4096 6144 8192
+  # argument = bits, i.e. 1536 2048 3072 4096 6144 8192
   assert k in (1536, 2048, 3072, 4096, 6144, 8192)
+              # 463   617   925  1234  1850  2467 decimal digits
+  def N( s: str ) -> int: return int( s.replace(" ", "").replace("\n", ""), 16 )
   if k==1536:
     # The prime is: 2^1536 - 2^1472 - 1 + 2^64 * { [2^1406 pi] + 741804 }
-    s = """
+    _p = N( """
       FFFFFFFF FFFFFFFF C90FDAA2 2168C234 C4C6628B 80DC1CD1
       29024E08 8A67CC74 020BBEA6 3B139B22 514A0879 8E3404DD
       EF9519B3 CD3A431B 302B0A6D F25F1437 4FE1356D 6D51C245
@@ -27,10 +29,20 @@ def set_modp( k: int ):
       EE386BFB 5A899FA5 AE9F2411 7C4B1FE6 49286651 ECE45B3D
       C2007CB8 A163BF05 98DA4836 1C55D39A 69163FA8 FD24CF5F
       83655D23 DCA3AD96 1C62F356 208552BB 9ED52907 7096966D
-      670C354E 4ABC9804 F1746C08 CA237327 FFFFFFFF FFFFFFFF"""
+      670C354E 4ABC9804 F1746C08 CA237327 FFFFFFFF FFFFFFFF""" )
+    # just for fun let's check...
+    pi425 = int( '314159265358979323846264338327950288419716939937510582097494'+
+      '45923078164062862089986280348253421170679821480865132823066470938446095'+
+      '50582231725359408128481117450284102701938521105559644622948954930381964'+
+      '42881097566593344612847564823378678316527120190914564856692346034861045'+
+      '43266482133936072602491412737245870066063155881748815209209628292540917'+
+      '15364367892590360011330530548820466521384146951941511609433057270365759'+
+      '59195309218' ) # '3' and 425 digits "after point"
+    assert _p == 2**1536 - 2**1472 - 1 + 2**64 * ((2**1406 * pi425//10**425) + 741804)
+    # so it's not shorter to use formula -- we'll need pi for that
   if k==2048:
     # This prime is: 2^2048 - 2^1984 - 1 + 2^64 * { [2^1918 pi] + 124476 }
-    s = """
+    _p = N( """
       FFFFFFFF FFFFFFFF C90FDAA2 2168C234 C4C6628B 80DC1CD1
       29024E08 8A67CC74 020BBEA6 3B139B22 514A0879 8E3404DD
       EF9519B3 CD3A431B 302B0A6D F25F1437 4FE1356D 6D51C245
@@ -41,10 +53,10 @@ def set_modp( k: int ):
       670C354E 4ABC9804 F1746C08 CA18217C 32905E46 2E36CE3B
       E39E772C 180E8603 9B2783A2 EC07A28F B5C55DF0 6F4C52C9
       DE2BCBF6 95581718 3995497C EA956AE5 15D22618 98FA0510
-      15728E5A 8AACAA68 FFFFFFFF FFFFFFFF"""
+      15728E5A 8AACAA68 FFFFFFFF FFFFFFFF""" )
   if k==3072:
     # This prime is: 2^3072 - 2^3008 - 1 + 2^64 * { [2^2942 pi] + 1690314 }
-    s = """
+    _p = N( """
       FFFFFFFF FFFFFFFF C90FDAA2 2168C234 C4C6628B 80DC1CD1
       29024E08 8A67CC74 020BBEA6 3B139B22 514A0879 8E3404DD
       EF9519B3 CD3A431B 302B0A6D F25F1437 4FE1356D 6D51C245
@@ -60,10 +72,10 @@ def set_modp( k: int ):
       ABF5AE8C DB0933D7 1E8C94E0 4A25619D CEE3D226 1AD2EE6B
       F12FFA06 D98A0864 D8760273 3EC86A64 521F2B18 177B200C
       BBE11757 7A615D6C 770988C0 BAD946E2 08E24FA0 74E5AB31
-      43DB5BFC E0FD108E 4B82D120 A93AD2CA FFFFFFFF FFFFFFFF"""
+      43DB5BFC E0FD108E 4B82D120 A93AD2CA FFFFFFFF FFFFFFFF""" )
   if k==4096:
     # This prime is: 2^4096 - 2^4032 - 1 + 2^64 * { [2^3966 pi] + 240904 }
-    s = """
+    _p = N( """
       FFFFFFFF FFFFFFFF C90FDAA2 2168C234 C4C6628B 80DC1CD1
       29024E08 8A67CC74 020BBEA6 3B139B22 514A0879 8E3404DD
       EF9519B3 CD3A431B 302B0A6D F25F1437 4FE1356D 6D51C245
@@ -85,10 +97,10 @@ def set_modp( k: int ):
       287C5947 4E6BC05D 99B2964F A090C3A2 233BA186 515BE7ED
       1F612970 CEE2D7AF B81BDD76 2170481C D0069127 D5B05AA9
       93B4EA98 8D8FDDC1 86FFB7DC 90A6C08F 4DF435C9 34063199
-      FFFFFFFF FFFFFFFF"""
+      FFFFFFFF FFFFFFFF""" )
   if k==6144:
     # This prime is: 2^6144 - 2^6080 - 1 + 2^64 * { [2^6014 pi] + 929484 }
-    s = """
+    _p = N( """
       FFFFFFFF FFFFFFFF C90FDAA2 2168C234 C4C6628B 80DC1CD1 29024E08
       8A67CC74 020BBEA6 3B139B22 514A0879 8E3404DD EF9519B3 CD3A431B
       302B0A6D F25F1437 4FE1356D 6D51C245 E485B576 625E7EC6 F44C42E9
@@ -116,11 +128,11 @@ def set_modp( k: int ):
       CC8F6D7E BF48E1D8 14CC5ED2 0F8037E0 A79715EE F29BE328 06A1D58B
       B7C5DA76 F550AA3D 8A1FBFF0 EB19CCB1 A313D55C DA56C9EC 2EF29632
       387FE8D7 6E3C0468 043E8F66 3F4860EE 12BF2D5B 0B7474D6 E694F91E
-      6DCC4024 FFFFFFFF FFFFFFFF"""
+      6DCC4024 FFFFFFFF FFFFFFFF""" )
   if k==8192:
     # This prime is: 2^8192 - 2^8128 - 1 + 2^64 * { [2^8062 pi] + 4743158 }
     # (g^a % p) have 2466 decimal digits
-    s = """
+    _p = N( """
       FFFFFFFF FFFFFFFF C90FDAA2 2168C234 C4C6628B 80DC1CD1
       29024E08 8A67CC74 020BBEA6 3B139B22 514A0879 8E3404DD
       EF9519B3 CD3A431B 302B0A6D F25F1437 4FE1356D 6D51C245
@@ -163,8 +175,7 @@ def set_modp( k: int ):
       B1D510BD 7EE74D73 FAF36BC3 1ECFA268 359046F4 EB879F92
       4009438B 481C6CD7 889A002E D5EE382B C9190DA6 FC026E47
       9558E447 5677E9AA 9E3050E2 765694DF C81F56E8 80B96E71
-      60C980DD 98EDD3DF FFFFFFFF FFFFFFFF"""
-  _p = int( s.replace(" ", "").replace("\n", ""), 16 ) # 2467 decimal digits
+      60C980DD 98EDD3DF FFFFFFFF FFFFFFFF""" ) # 2467 decimal digits
 
 # g = 2 -- it's always 2 so we just remove it from accessible variables
 
@@ -176,14 +187,13 @@ def make_key( gb: int, a: int ): # gb is from 2nd party, a is secret
   if _p==0: set_modp( 8192 ) # strongest by default
   return pow( gb, a, _p ) # the result is the key for encryption
 
-def test( a = 123456789012345678903141592, b = 987654321098765432102718281 ):
-  # a and b are secret, p, g, ga, gb are public, gab/gba is secret again
-  ga = make_pub( a ); gab = make_key( ga, b )
-  gb = make_pub( b ); gba = make_key( gb, a )
-  assert gab == gba
-  # print that
-  def pp( m:str, n:int ): t = "%d" % n; print( m, t[:20]+'...'+t[-20:] )
-  pp('p\t',_p); pp('ga\t',ga); pp('gb\t',gb); pp('gab=gba\t',gab)
-
+#def test( a = 123456789012345678903141592, b = 987654321098765432102718281 ):
+#  # a and b are secret, p, g, ga, gb are public, gab/gba is secret again
+#  ga = make_pub( a ); gab = make_key( ga, b )
+#  gb = make_pub( b ); gba = make_key( gb, a )
+#  assert gab == gba
+#  # print that
+#  def pp( m:str, n:int ): t = "%d" % n; print( m, t[:20]+'...'+t[-20:] )
+#  pp('p\t',_p); pp('ga\t',ga); pp('gb\t',gb); pp('gab=gba\t',gab)
+#
 #test()
-
